@@ -46,11 +46,20 @@ class RandomWalkModel:
         self.nextPopulation = []       # Next state of the population grid after interactions
         self.currentGeneration = 0     # Current generation count
  
-        # Defines transition probabilities for state changes.
-        self.transitionProbabilities = [[1.0, 0.0, 0.0, 0.0],  # Healthy transitions
-                                        [0.1, 0.1, 0.5, 0.3],  # Sick transitions
-                                        [0.0, 0.0, 1.0, 0.0],    # Dead transitions
-                                        [0.1, 0.0, 0.0, 0.9]]  # Immune transitions
+        # CENARIO IDEIAL
+       # self.transitionProbabilities = [[1.0, 0.0, 0.0, 0.0],  # Healthy transitions
+                                     #   [0.1, 0.1, 0.5, 0.3],  # Sick transitions
+                                       # [0.0, 0.0, 1.0, 0.0],    # Dead transitions
+                                      #  [0.1, 0.0, 0.0, 0.9]]  # Immune transitions
+        
+        #CENARIO SEM VACINA ATUALIZADA
+        self.transitionProbabilities = [
+    # From:    Healthy  Sick   Dead  Immune
+    [0.95,     0.05,  0.0,   0.0],   # Healthy → 5% fica doente
+    [0.0,      0.4,   0.3,   0.3],   # Sick → 60% fica doente, 30% morre, 10% imune
+    [0.0,      0.0,   1.0,   0.0],   # Dead → morto permanece morto
+    [1.0,      0.0,   0.0,   0.0]    # Immune → 100% fica saudável (não volta a ficar doente)
+]
         
         self.contagionFactor = 0.9  # Probability of getting sick after interaction with a sick individual
         self.socialDistanceEffect = 0.0 # Probability of avoiding contact because of social distancing
@@ -299,9 +308,9 @@ class RandomWalkModel:
 
 # MAIN PROGRAM
 
-numberOfRuns = 3       # Number of simulation runs
+numberOfRuns = 1       # Number of simulation runs
 gridSize = 142            # Size of the population grid
-numberOfGenerations = 52     # Number of generations (iterations) per simulation run
+numberOfGenerations = 1000     # Number of generations (iterations) per simulation run
 
 # Run the simulation multiple times and print the number of deaths after each run
 for i in range(numberOfRuns):
